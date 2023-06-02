@@ -20,7 +20,7 @@ public class QuizForm {
     @Size(max = 255, message = "Max size set to 255")
     private String quiz_desc;
 
-    private Set<QuestionForm> questions;
+    private Set<Question> questions;
 
     public QuizForm() {
         this.questions = new HashSet<>();
