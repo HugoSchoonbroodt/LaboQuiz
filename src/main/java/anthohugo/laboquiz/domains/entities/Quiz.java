@@ -28,7 +28,7 @@ public class Quiz implements Serializable {
     @Column
     private int quiz_diff;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.PERSIST)
     private Set<Question> questions;
 
 }

@@ -1,6 +1,7 @@
 package anthohugo.laboquiz.services;
 
 import anthohugo.laboquiz.domains.dtos.QuizDTO;
+import anthohugo.laboquiz.domains.entities.Answer;
 import anthohugo.laboquiz.domains.entities.Question;
 import anthohugo.laboquiz.domains.forms.QuizForm;
 
@@ -23,4 +24,6 @@ public interface QuizService {
     QuizDTO getQuizById(Long quizId);
 
     Set<Question> getQuestionsByQuizId(Long quizId);
+
+    Set<Answer> getAnswersByQuestionId(Long questionId);
 }

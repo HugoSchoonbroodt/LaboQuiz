@@ -31,6 +31,6 @@ public class Question implements Serializable {
     @ManyToOne
     private Quiz quiz;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
     private Set<Answer> answers;
 }
