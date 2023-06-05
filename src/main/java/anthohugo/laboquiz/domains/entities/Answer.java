@@ -17,8 +17,8 @@ public class Answer implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answer_id;
 
-    @Column
-    private Long answer_question_id;
+//    @Column
+//    private Long answer_question_id;
 
     @Column(length = 255)
     private String answer_text;

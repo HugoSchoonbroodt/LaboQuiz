@@ -31,4 +31,9 @@ public class Quiz implements Serializable {
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.PERSIST)
     private Set<Question> questions;
 
+    public void addQuestion(Question q){
+        q.setQuiz(this);
+        questions.add(q);
+    }
+    // où faut il le foutre mdr
 }
