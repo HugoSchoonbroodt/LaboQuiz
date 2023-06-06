@@ -23,17 +23,17 @@
             <textarea name="question0" required></textarea><br>
 
             <label>Answers:</label><br>
-            <input type="text" name="answer0-0" required>
-            <input type="radio" name="isCorrect0" value="answer0-0" required> Correct<br>
+            <input type="text" name="answer-question0-0" required>
+            <input type="radio" name="isCorrect-question0" value="answer-question0-0" required> Correct<br>
 
-            <input type="text" name="answer0-1" required>
-            <input type="radio" name="isCorrect0" value="answer0-1" required> Correct<br>
+            <input type="text" name="answer-question0-1" required>
+            <input type="radio" name="isCorrect-question0" value="answer-question0-1" required> Correct<br>
 
-            <input type="text" name="answer0-2" required>
-            <input type="radio" name="isCorrect0" value="answer0-2" required> Correct<br>
+            <input type="text" name="answer-question0-2" required>
+            <input type="radio" name="isCorrect-question0" value="answer-question0-2" required> Correct<br>
 
-            <input type="text" name="answer0-3" required>
-            <input type="radio" name="isCorrect0" value="answer0-3" required> Correct<br>
+            <input type="text" name="answer-question0-3" required>
+            <input type="radio" name="isCorrect-question0" value="answer-question0-3" required> Correct<br>
         </div>
     </div>
 

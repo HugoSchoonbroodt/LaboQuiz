@@ -1,5 +1,8 @@
 package anthohugo.laboquiz.servlets;
 
+import anthohugo.laboquiz.domains.entities.Answer;
+import anthohugo.laboquiz.domains.entities.Question;
+import anthohugo.laboquiz.domains.entities.Quiz;
 import anthohugo.laboquiz.domains.forms.AnswerForm;
 import anthohugo.laboquiz.domains.forms.QuestionForm;
 import anthohugo.laboquiz.domains.forms.QuizForm;
@@ -12,8 +15,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Enumeration;
-
 
 @WebServlet(name = "quizCreate", urlPatterns = "/quizCreate")
 public class QuizCreateServlet extends HttpServlet {
@@ -28,48 +31,48 @@ public class QuizCreateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String quizTitle = request.getParameter("quizTitle");
         String quizDescription = request.getParameter("quizDescription");
 
-        QuizForm quizForm = new QuizForm();
-        quizForm.setQuiz_title(quizTitle);
-        quizForm.setQuiz_desc(quizDescription);
+        if (quizTitle != null && quizDescription != null) {
+            QuizForm quizForm = new QuizForm();
+            quizForm.setQuiz_title(quizTitle);
+            quizForm.setQuiz_desc(quizDescription);
 
-        Enumeration<String> parameterNames = request.getParameterNames();
-        while (parameterNames.hasMoreElements()) {
-            String paramName = parameterNames.nextElement();
-            if (paramName.startsWith("question")) {
-                String questionText = request.getParameter(paramName);
-                int questionIndex = Integer.parseInt(paramName.substring(8));
+            Quiz quiz = quizForm.toEntity();
 
-                QuestionForm questionForm = new QuestionForm();
-                questionForm.setQuestion_text(questionText);
+            Enumeration<String> parameterNames = request.getParameterNames();
+            while (parameterNames.hasMoreElements()) {
+                String paramName = parameterNames.nextElement();
+                String[] responses = request.getParameterValues("isCorrect-" + paramName);
+                if (paramName.startsWith("question")) {
+                    String questionText = request.getParameter(paramName);
 
-                String answerParamPrefix = "answer" + questionIndex + "-";
-                String isCorrectParam = "isCorrect" + questionIndex;
+                    Question question = new Question();
+                    question.setQuestion_text(questionText);
+                    question.setQuiz(quiz);
 
-                Enumeration<String> answerParamNames = request.getParameterNames();
+                    Enumeration<String> answerParamNames = request.getParameterNames();
+                    while (answerParamNames.hasMoreElements()) {
+                        String answerParamName = answerParamNames.nextElement();
+                        if (answerParamName.startsWith("answer-" + paramName)) {
+                            String answerText = request.getParameter(answerParamName);
+                            boolean isCorrect = Arrays.asList(responses).contains(answerParamName);
 
-                while (answerParamNames.hasMoreElements()) {
-                    String answerParamName = answerParamNames.nextElement();
-                    if (answerParamName.startsWith(answerParamPrefix)) {
-                        String answerText = request.getParameter(answerParamName);
-                        int answerIndex = Integer.parseInt(answerParamName.substring(answerParamPrefix.length()));
+                            Answer answer = new Answer();
+                            answer.setAnswer_text(answerText);
+                            answer.set_correct(isCorrect);
 
-                        AnswerForm answerForm = new AnswerForm();
-                        answerForm.setAnswer_text(answerText);
-                        answerForm.setIs_correct(answerParamName.equals(isCorrectParam));
-
-                        questionForm.getAnswers().add(answerForm.toEntity());
+                            question.addAnswer(answer);
+                        }
                     }
-                }
 
-                quizForm.getQuestions().add(questionForm.toEntity());
+                    quiz.addQuestion(question);
+                }
             }
+
+            quizService.add(quiz);
         }
-        // Ajouter le quiz avec ses questions et réponses
-        quizService.add(quizForm);
 
         response.sendRedirect(request.getContextPath() + "/");
     }

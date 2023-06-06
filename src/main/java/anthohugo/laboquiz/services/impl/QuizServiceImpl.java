@@ -5,7 +5,6 @@ import anthohugo.laboquiz.domains.entities.Answer;
 import anthohugo.laboquiz.domains.entities.Question;
 import anthohugo.laboquiz.domains.entities.Quiz;
 import anthohugo.laboquiz.domains.forms.QuizForm;
-import anthohugo.laboquiz.repositories.AnswerRepository;
 import anthohugo.laboquiz.repositories.QuestionRepository;
 import anthohugo.laboquiz.repositories.QuizRepository;
 import anthohugo.laboquiz.services.QuizService;
@@ -34,9 +33,8 @@ public class QuizServiceImpl implements QuizService,Serializable {
 //    private AnswerRepository answerRepository;
 
     @Override
-    public void add(QuizForm a) {
-        Quiz quiz = a.toEntity();
-        quizRepository.add(quiz);
+    public void add(Quiz a) {
+        quizRepository.add(a);
     }
 
     @Override
@@ -98,5 +96,14 @@ public class QuizServiceImpl implements QuizService,Serializable {
         return target.getAnswers();
     }
 
+    @Override
+    public void addQuestions(Quiz q, Question a) {
+        q.addQuestion(a);
+    }
+    
+    @Override
+    public void addAnswers(Question q, Answer a) {
+        q.addAnswer(a);
+    }
 
 }

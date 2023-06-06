@@ -1,5 +1,6 @@
 package anthohugo.laboquiz.repositories.impl;
 
+import anthohugo.laboquiz.domains.entities.Answer;
 import anthohugo.laboquiz.domains.entities.Question;
 import anthohugo.laboquiz.domains.entities.Quiz;
 import anthohugo.laboquiz.repositories.QuestionRepository;

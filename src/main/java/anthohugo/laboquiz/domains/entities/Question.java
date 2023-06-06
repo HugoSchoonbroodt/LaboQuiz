@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -12,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor
 public class Question implements Serializable {
 
     @Id
@@ -31,8 +32,12 @@ public class Question implements Serializable {
     @ManyToOne
     private Quiz quiz;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Answer> answers;
+
+    public Question() {
+        this.answers = new HashSet<>();
+    }
 
     public void addAnswer(Answer a){
         a.setQuestion(this);

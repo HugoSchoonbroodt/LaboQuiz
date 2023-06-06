@@ -1,6 +1,9 @@
 package anthohugo.laboquiz.domains.forms;
 
 import anthohugo.laboquiz.domains.entities.Answer;
+import anthohugo.laboquiz.domains.entities.Question;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -19,19 +22,16 @@ public class AnswerForm {
 
     private boolean is_correct;
 
-    public boolean getIs_correct(){
-        return is_correct;
-    }
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    private QuestionForm question;
 
-    public void setIs_correct(boolean is_correct){
-        this.is_correct = is_correct;
-    }
 
-    public Answer toEntity(){
-
-        return Answer.builder()
-                .answer_text(getAnswer_text())
-                .is_correct(getIs_correct())
-                .build();
+    public Answer toEntity() {
+        Answer answer = new Answer();
+        answer.setAnswer_text(getAnswer_text());
+        answer.set_correct(is_correct);
+        answer.setQuestion(question != null ? question.toEntity() : null);
+        return answer;
     }
 }
