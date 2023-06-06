@@ -26,7 +26,12 @@ public class Answer implements Serializable {
     @Column
     private boolean is_correct;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "question_id")
     private Question question;
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
 
 }

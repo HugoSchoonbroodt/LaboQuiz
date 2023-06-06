@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor
 public class Quiz implements Serializable {
 
     @Id
@@ -28,12 +28,21 @@ public class Quiz implements Serializable {
     @Column
     private int quiz_diff;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Question> questions;
+
+    public Quiz(String quiz_title, String quiz_desc) {
+        this();
+        this.quiz_title = quiz_title;
+        this.quiz_desc = quiz_desc;
+    }
+
+    public Quiz() {
+        this.questions = new HashSet<>();
+    }
 
     public void addQuestion(Question q){
         q.setQuiz(this);
         questions.add(q);
     }
-    // où faut il le foutre mdr
 }

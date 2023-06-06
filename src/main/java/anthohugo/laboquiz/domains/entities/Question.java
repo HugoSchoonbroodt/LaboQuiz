@@ -30,6 +30,7 @@ public class Question implements Serializable {
     private int question_diff;
 
     @ManyToOne
+    @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
@@ -43,6 +44,5 @@ public class Question implements Serializable {
         a.setQuestion(this);
         answers.add(a);
     }
-    // où faut il le foutre mdr 2.0.
 
 }
